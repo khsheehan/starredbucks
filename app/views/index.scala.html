@@ -1,0 +1,10 @@
+@(message: String)
+
+@stylesheets = {}
+@javascripts = {}
+@content = {
+    <h1>StarredBucks!</h1>
+    <h5>@message</h5>
+}
+
+@main(content)(stylesheets)(javascripts)

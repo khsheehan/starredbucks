@@ -1,0 +1,30 @@
+@(content: Html)(stylesheets: Html)(javascripts: Html)
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Welcome to the app!</title>
+        <link rel='shortcut icon' type='image/png' href='@routes.Assets.at("images/favicon.png")'>
+
+        <!-- Vendor Stylesheets -->
+        <link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/vendor/bootstrap.min.css")'>
+        <link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/vendor/bootstrap-theme.min.css")'>
+        
+        <!-- Application Stylesheets -->
+        <link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/main.css")'>
+
+        <!-- Vendor Javascripts -->
+        <script src='@routes.Assets.at("javascripts/vendor/jquery-2.1.1.min.js")' type='text/javascript'></script>
+        <script src='@routes.Assets.at("javascripts/vendor/bootstrap.min.js")' type='text/javascript'></script>
+        <script src='@routes.Assets.at("javascripts/vendor/angular.min.js")' type='text/javascript'></script>
+        
+        <!-- Application Javascripts -->
+        <script src='@routes.Assets.at("javascripts/main.js")' type='text/javascript'></script>
+
+    </head>
+    <body>
+        <div id="wrapper">
+            @content
+        </div>
+    </body>
+</html>
