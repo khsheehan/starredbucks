@@ -1,6 +1,6 @@
 package controllers;
 
-import play.*;
+import models.User;
 import play.mvc.*;
 
 import views.html.*;
@@ -8,7 +8,7 @@ import views.html.*;
 public class Application extends Controller {
 
     public static Result index() {
-        return ok(index.render("Hello World"));
+        return ok(index.render("Hello There!"));
     }
 
 }

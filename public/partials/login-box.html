@@ -1,0 +1,19 @@
+<div id="login">
+    Username: <input ng-model="login.username" type="text" name="username" />
+    Password: <input ng-model="login.password" type="text" name="password" />
+
+    <button name="SUBMIT"
+            ng-click="signup.login()">
+        Login Up
+    </button>
+</div>
+
+<div id="signup">
+    Username: <input ng-model="signup.username" type="text" name="username" />
+    Password: <input ng-model="signup.password" type="text" name="password" />
+    
+    <button name="SUBMIT"
+            ng-click="signup.signup()">
+        Sign Up
+    </button>
+</div>

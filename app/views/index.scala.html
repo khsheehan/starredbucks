@@ -3,8 +3,27 @@
 @stylesheets = {}
 @javascripts = {}
 @content = {
-    <h1>StarredBucks!</h1>
-    <h5>@message</h5>
+
+    <!------------------------------------>
+    <!-- Begin application content here -->
+    <!------------------------------------>
+
+
+    <div ng-app="starredbucks.Application">
+        <div ng-controller="StarredBucksApp">
+            <h1>StarredBucks!</h1>
+            <h5>@message</h5>
+            <span>Welcome back, {{ sb.userData.username }}</span>
+            
+            <login-box></login-box>
+
+        </div>        
+    </div>
+
+
+    <!------------------------------------>    
+    <!-- End application content here ---->
+    <!------------------------------------>
 }
 
 @main(content)(stylesheets)(javascripts)
