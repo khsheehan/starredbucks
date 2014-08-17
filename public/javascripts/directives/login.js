@@ -16,43 +16,63 @@
                     controller: ['$scope', 'UserAPI', '$cookies', '$cookieStore',
                         function($scope, UserAPI, $cookies, $cookieStore) {
                             
-                            $scope.login = {
-                                username: null,
-                                password: null
+                            var setStateToLoggedIn;
+
+                            /* --------------------------------------------
+                            | Directive's scope bound objects and functions
+                            `------------------------------------------- */
+                            $scope.loginModal = {
+                                currentView: 'login',
+                                modalId: '#login-modal',
+                                login: {
+                                    username: null,
+                                    password: null,
+                                    login: function() {
+                                        var username = $scope.loginModal.login.username,
+                                            password = $scope.loginModal.login.password;
+
+                                        UserAPI.login({username: username, password: password}).
+                                            then(function(data) {
+                                                setStateToLoggedIn(data);
+                                            }).
+                                            catch(function() {
+                                                // TODO: Implement some error handling
+                                            });
+                                    }
+                                }, signup: {
+                                    username: null,
+                                    password: null,
+                                    signup: function() {
+                                        var username = $scope.loginModal.signup.username,
+                                            password = $scope.loginModal.signup.password;
+
+                                        UserAPI.signup({username: username, password: password}).
+                                            then(function(data) {
+                                                setStateToLoggedIn(data);
+                                            }).
+                                            catch(function() {
+                                                // TODO: Implement some error handling
+                                            });
+                                    }
+                                }, toggleView: function() {
+                                    var view = $scope.loginModal.currentView === 'login' ? 'signup' : 'login';
+                                    $scope.loginModal.currentView = view;
+                                }
                             };
-    
-                            $scope.signup = {
-                                username: null,
-                                password: null
-                            };
-    
-                            $scope.signup.signup = function() {
-                                var username = $scope.signup.username,
-                                    password = $scope.signup.password;
-    
-                                UserAPI.signup({username: username, password: password}).
-                                    then(function(data) {
-                                        // TODO: Close the login modal
-                                        $cookieStore.put("username", data.username);
-                                    }).
-                                    catch(function() {
-                                        // TODO: Implement some error handling
+
+                            /* ----------------------------------
+                            | Locally bound functions and objects
+                            `--------------------------------- */
+                            setStateToLoggedIn = function(data) {
+                                $cookieStore.put("username", data.username);
+                                setTimeout(function() {
+                                    $scope.$parent.$apply(function() {
+                                        $scope.$parent.sb.userData.isLoggedIn = true;
+                                        $($scope.loginModal.modalId).modal('hide');
                                     });
+                                }, 1000);
                             };
-    
-                            $scope.signup.login = function() {
-                                var username = $scope.login.username,
-                                    password = $scope.login.password;
-    
-                                UserAPI.login({username: username, password: password}).
-                                    then(function(data) {
-                                        // TODO: Close the login modal
-                                        $cookieStore.put("username", data.username);
-                                    }).
-                                    catch(function() {
-                                        // TODO: Implement some error handling
-                                    });
-                            };
+
                         }
                     ]
                 };

@@ -15,13 +15,15 @@
     application.controller('StarredBucksApp', ['$scope', 'UserAPI',
         function($scope, UserAPI) {
 
-            // Global wrapper for starredbucks' $scope bound objects
+            /* ----------------------------------------------
+            | Glocal wrapper for the StarredBucks application
+            `--------------------------------------------- */
             $scope.sb = {
                 userData: {
+                    isLoggedIn: false,
                     username: "none"
                 }
             };
         }
     ]);
-
 })();

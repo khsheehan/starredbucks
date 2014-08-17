@@ -11,12 +11,25 @@
 
     <div ng-app="starredbucks.Application">
         <div ng-controller="StarredBucksApp">
-            <h1>StarredBucks!</h1>
-            <h5>@message</h5>
-            <span>Welcome back, {{ sb.userData.username }}</span>
-            
-            <login-box></login-box>
 
+            <!-- Login and signup modal -->
+            <login-box></login-box>
+            
+            <!-- Before a user is logged in, show a splash screen with the login modal present -->
+            <div id="splash-screen" ng-hide="sb.userData.isLoggedIn">
+                <h1>StarredBucks!</h1>
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">
+                    Login / Signup
+                </button>
+            </div>
+
+            <!-- The dashboard is presented to logged in users -->
+            <dashboard ng-show="sb.userData.isLoggedIn" logged-in="sb.userData.isLoggedIn"></dashboard>
+
+            <!-- Holds details about the store in focus -->
+            <div class="store-card-container">
+                <store-card store-id="1"></store-card>    
+            </div>
         </div>        
     </div>
 

@@ -1,19 +1,39 @@
-<div id="login">
-    Username: <input ng-model="login.username" type="text" name="username" />
-    Password: <input ng-model="login.password" type="text" name="password" />
-
-    <button name="SUBMIT"
-            ng-click="signup.login()">
-        Login Up
-    </button>
-</div>
-
-<div id="signup">
-    Username: <input ng-model="signup.username" type="text" name="username" />
-    Password: <input ng-model="signup.password" type="text" name="password" />
-    
-    <button name="SUBMIT"
-            ng-click="signup.signup()">
-        Sign Up
-    </button>
+<!-- Login and signup modal with login-box directive -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">{{ loginModal.currentView.charAt(0).toUpperCase() + loginModal.currentView.slice(1, loginModal.currentView.length) }}</h4>
+            </div>
+            <div class="modal-body">
+                <div id="login" ng-show="loginModal.currentView === 'login'">
+                    Username: <input ng-model="loginModal.login.username" type="text" name="username" />
+                    Password: <input ng-model="loginModal.login.password" type="text" name="password" />
+                </div>
+                <div id="signup" ng-show="loginModal.currentView === 'signup'">
+                    Username: <input ng-model="loginModal.signup.username" type="text" name="username" />
+                    Password: <input ng-model="loginModal.signup.password" type="text" name="password" />
+                </div>
+                <a ng-click="loginModal.toggleView()">
+                    {{ loginModal.currentView === 'login' ? 'New here? Signup' : 'Already have an account? Login' }}
+                </a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button"
+                        class="btn btn-primary"
+                        ng-show="loginModal.currentView === 'login'"
+                        ng-click="loginModal.login.login()">
+                    Login
+                </button>
+                <button type="button"
+                        class="btn btn-primary"
+                        ng-show="loginModal.currentView === 'signup'"
+                        ng-click="loginModal.signup.signup()">
+                    Signup
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
