@@ -12,6 +12,12 @@
     <div ng-app="starredbucks.Application">
         <div ng-controller="StarredBucksApp">
 
+            <div class="logout"
+                 ng-show="sb.userData.isLoggedIn"
+                 ng-click="sb.logout()">
+                Click to logout
+            </div>
+
             <!-- Login and signup modal -->
             <login-box></login-box>
             
@@ -27,7 +33,7 @@
             <dashboard ng-show="sb.userData.isLoggedIn" logged-in="sb.userData.isLoggedIn"></dashboard>
 
             <!-- Holds details about the store in focus -->
-            <div class="store-card-container">
+            <div class="store-card-container" ng-show="sb.userData.isLoggedIn">
                 <store-card store-id="1"></store-card>    
             </div>
         </div>        

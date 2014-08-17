@@ -69,8 +69,8 @@ public class UserAPI extends Controller {
     }
 
     public static Result logout() {
-        return null;
-        // return ok(index.render("Signup"));
+        session().clear();
+        return ok();
     }
     
     private static String hashPassword(String username, String password) {

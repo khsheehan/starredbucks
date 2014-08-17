@@ -17,6 +17,10 @@
             this.login = function(userInfo) {
                 return PromiseService.processHttpResponse($http.post(BASE_URL + 'login', userInfo));
             };
+            
+            this.logout = function() {
+                return PromiseService.processHttpResponse($http.get(BASE_URL + 'logout'));
+            }
         }
     ]);
 
