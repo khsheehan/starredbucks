@@ -14,6 +14,7 @@ public class UserAPI extends Controller {
         Http.RequestBody body = request().body();
         String username = body.asJson().findPath("username").asText();
         String password = body.asJson().findPath("password").asText();
+        String zipcode  = body.asJson().findPath("zipcode").asText();
 
         // Hash and salt their password
         String hashedPassword = hashPassword(username, password);
@@ -22,6 +23,7 @@ public class UserAPI extends Controller {
         User newUser = new User();
         newUser.username = username;
         newUser.hashedpass = hashedPassword;
+        newUser.zip = zipcode;
         newUser.save();
 
         // Start a session for this user
@@ -33,6 +35,7 @@ public class UserAPI extends Controller {
         ObjectNode json = Json.newObject();
         json.put("status", "OK");
         json.put("username", user.username);
+        json.put("zipcode", user.zip);
 
         return ok(json);
     }
@@ -57,6 +60,7 @@ public class UserAPI extends Controller {
 
                 json.put("status", "OK");
                 json.put("username", user.username);
+                json.put("zipcode", user.zip);
                 return ok(json);
                 
             } else {

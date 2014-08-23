@@ -2,6 +2,10 @@
 
     {{ dashboard.greeting }}
     
+    <div style="z-index: 2; position: absolute; background: black; left: 50%; top: 20px; padding: 10px;">
+        ZIP CODE: {{ dashboard.zipcode }}
+    </div>
+    
     <div class="map-wrapper">
         <div id="starbucks-map" style="width: 100%; height: 70%"></div>    
     </div>

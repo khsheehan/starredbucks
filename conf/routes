@@ -5,6 +5,9 @@
 # Index
 GET     /                           controllers.Application.index()
 
+# Reviews API
+GET     /api/reviews/:store_id      controllers.ReviewAPI.getReviewsByStoreId(store_id: String)
+
 # User API
 POST    /api/user/signup            controllers.UserAPI.signup()
 POST    /api/user/login             controllers.UserAPI.login()

@@ -14,6 +14,7 @@
                 <div id="signup" ng-show="loginModal.currentView === 'signup'">
                     Username: <input ng-model="loginModal.signup.username" type="text" name="username" />
                     Password: <input ng-model="loginModal.signup.password" type="text" name="password" />
+                    Zip Code: <input ng-model="loginModal.signup.zipcode" type="text" name="zipcode" />
                 </div>
                 <a ng-click="loginModal.toggleView()">
                     {{ loginModal.currentView === 'login' ? 'New here? Signup' : 'Already have an account? Login' }}

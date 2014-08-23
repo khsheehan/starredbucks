@@ -23,13 +23,24 @@
                     isLoggedIn: false,
                     username: ""
                 },
+                
+                /* The logout function will work independent of application state. The
+                 * logout endpoint will always be hit and the cookies will be cleared.
+                 * The code below that removes the 'dashboard' and 'store-card' are just
+                 * to keep the DOM clean, as those elements will be hidden when the user
+                 * is not logged in anyway.
+                 */
                 logout: function() {
-                    // The logout function will work independent of application state. The
-                    // logout endpoint will always be hit and the cookies will be cleared.
+                     
+                    var $dashboardContainer = $('.dashboard-container'),
+                        $storeCardContainer = $('.store-card-container');
+                    
                     UserAPI.logout();
                     $cookieStore.remove("username");
                     $scope.sb.userData.username = "";
                     $scope.sb.userData.isLoggedIn = false;
+                    $dashboardContainer.find('dashboard').remove();
+                    $storeCardContainer.find('store-card').remove();
                 }
             };
         }

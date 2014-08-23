@@ -15,16 +15,28 @@
                     },
                     templateUrl: '/assets/partials/store-card.html',
                     replace: false,
-                    controller: ['$scope', 'UserAPI', 'MapAPI', '$cookies', '$cookieStore',
-                        function($scope, UserAPI, MapAPI, $cookies, $cookieStore) {
+                    controller: ['$scope', 'ReviewAPI',
+                        function($scope, ReviewAPI) {
 
                             /* ---------------------------------------------
                              | Directive's scope bound objects and functions
                              `------------------------------------------- */
+                            
                             $scope.card = {
                                 id: $scope.storeId,
-                                name: null
+                                name: null,
+                                reviews: []
                             };
+                            
+                            /* ---------------------------------------------
+                             | Initialization script
+                             `------------------------------------------- */
+
+                            ReviewAPI.getStoreReviews($scope.card.id).then(function(storeData) {
+                                console.log(storeData.reviews);
+                                
+                                $scope.card.reviews = storeData.reviews;
+                            });
 
                         }
                     ]

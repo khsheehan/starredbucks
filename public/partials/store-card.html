@@ -1,4 +1,13 @@
 <div>
     <h2>Store Card</h2>
-    <span>Id: {{ card.id }}</span>
+    <div style="background: green">
+        <ol>
+            <li ng-repeat="review in card.reviews">
+                id: {{ review.id }} | 
+                stars: {{ review.stars }} |
+                text: {{ review.text }} |
+                user: {{ review.user_id }} |
+            </li>
+        </ol>
+    </div>
 </div>

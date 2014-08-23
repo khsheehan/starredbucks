@@ -3,6 +3,15 @@
 
 # --- !Ups
 
+create table reviews (
+  id                        bigint auto_increment not null,
+  store_id                  varchar(255),
+  user_id                   integer,
+  review_text               varchar(255),
+  num_stars                 integer,
+  constraint pk_reviews primary key (id))
+;
+
 create table users (
   id                        bigint auto_increment not null,
   username                  varchar(255),
@@ -17,6 +26,8 @@ create table users (
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
+
+drop table reviews;
 
 drop table users;
 

@@ -24,6 +24,17 @@
         }
     ]);
 
+    angular.module('starredbucks').service('ReviewAPI', ['$http', 'PromiseService',
+        function($http, PromiseService) {
+
+            var BASE_URL = '/api/reviews/';
+
+            this.getStoreReviews = function(storeId) {
+                return PromiseService.processHttpResponse($http.get(BASE_URL + storeId));
+            }
+        }
+    ]);
+
     angular.module('starredbucks').service('MapAPI', ['$http', 'PromiseService',
         function($http, PromiseService) {
 
@@ -51,7 +62,14 @@
                     lng: -72.86
                 }];
 
+            /*
+             * Get `count` stores within `radius` miles from `center` (lat, lng). A
+             * count of -1 returns as many as are applicable. Note that there is a maximum
+             * cap of 1000 stores in a single view.
+             */
             this.getPoints = function(count, radius, center) {
+                var lat = center[0],
+                    lng = center[1];
                 return dummyPoints;
                 // var data = { count: count, radius: radius, center: center };
                 // return PromiseService.processHttpResponse($http.get(BASE_URL, data));
