@@ -33,8 +33,6 @@
                              `------------------------------------------- */
 
                             ReviewAPI.getStoreReviews($scope.card.id).then(function(storeData) {
-                                console.log(storeData.reviews);
-                                
                                 $scope.card.reviews = storeData.reviews;
                             });
 

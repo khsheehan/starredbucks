@@ -16,7 +16,7 @@
                     controller: ['$scope', 'UserAPI', 'MapAPI', 'ReviewAPI', '$cookies', '$cookieStore', '$compile',
                         function($scope, UserAPI, MapAPI, ReviewAPI, $cookies, $cookieStore, $compile) {
                             
-                            var confirmLoggedIn, addMarkerClickEvent, initializeMap, drawMap,
+                            var confirmLoggedIn, addMarkerClickEvent, initializeMap, drawMap, resizeMap,
                                 mapDefaults = { lat: 43.031, lng: -71.97, zoom: 8 };
 
                             /* ---------------------------------------------
@@ -27,12 +27,32 @@
                                 mapId: 'starbucks-map',
                                 greeting: "Hello!",
                                 currentStoreId: 1,
-                                zipcode: $cookieStore.get("zipcode")
+                                zipcode: $cookieStore.get("zipcode"),
+                                updateZipcode: function(event) {
+                                    var zip;
+                                    if (event.charCode === 13 || event.charCode === 27) {
+                                        zip = event.target.value;
+                                        if (zip.length === 5) {
+                                            zip = parseInt(zip);
+                                            UserAPI.setZipcode({'zipcode': zip});
+                                        }
+                                    }
+                                }
                             };
 
                             /* -----------------------------------
                              | Locally bound objects and functions
                              `--------------------------------- */
+                            
+                            /*
+                             * There are some small bugs in the Google Maps API.
+                             * Triggering a resize event on the map redraws the map
+                             * to fit its bounding box.
+                             */
+                            resizeMap = function() {
+                                console.log("RESIZE");
+                                google.maps.event.trigger($scope.dashboard.map, "resize");    
+                            };
 
                             /*
                              * This method can be run at any time as a pseudo-safety precaution. Note
@@ -88,8 +108,6 @@
                                     radius    = 10,
                                     mapData   = startingPoint || {};
                                 
-                                console.log()
-
                                 lat  = mapData.lat  || mapDefaults.lat;
                                 lng  = mapData.lng  || mapDefaults.lng;
                                 zoom = mapData.zoom || mapDefaults.zoom;
@@ -124,9 +142,21 @@
                              * the $scope bound map object.
                              */
                             initializeMap = function() {
-                                var initialMapData = {}; // TODO: Get actual initial center point and zoom data
+                                var i = 0,
+                                    initialMapData = {},
+                                    interval; // TODO: Get actual initial center point and zoom data
 
                                 drawMap(initialMapData);
+                                
+                                // Note that this is fairly hackish and is not an ideal
+                                // solution to the Google Maps API redraw bug.
+                                interval = setInterval(function() {
+                                    if (i++ === 10) {
+                                        clearInterval(interval);
+                                    } else {
+                                        resizeMap();
+                                    }
+                                }, 500);
                             };
 
                             /* ---------------------------------------------------

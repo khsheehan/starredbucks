@@ -1,5 +1,6 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.User;
 import java.security.*;
@@ -70,6 +71,20 @@ public class UserAPI extends Controller {
         } catch (Exception e) {
             return badRequest(); // If this fails the user doesn't exist
         }
+    }
+    
+    public static Result updateZipcode() {
+        Http.RequestBody body = request().body();
+        JsonNode node = body.asJson();
+        String zipcode = node.findPath("zipcode").asText();
+        Long uid = Long.parseLong(session("uid"));
+        User user = User.getUserById(uid);
+        
+        // TODO: Add some basic validation on the zipcode
+        user.zip = zipcode;
+        user.update();
+        
+        return ok();
     }
 
     public static Result logout() {

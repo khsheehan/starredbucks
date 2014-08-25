@@ -20,7 +20,12 @@
             
             this.logout = function() {
                 return PromiseService.processHttpResponse($http.get(BASE_URL + 'logout'));
-            }
+            };
+            
+            this.setZipcode = function(zipcode) {
+                console.log("Setting zipcode to: " + zipcode);
+                return PromiseService.processHttpResponse($http.post(BASE_URL + 'zip', zipcode));
+            };
         }
     ]);
 

@@ -3,6 +3,11 @@
     {{ dashboard.greeting }}
     
     <div style="z-index: 2; position: absolute; background: black; left: 50%; top: 20px; padding: 10px;">
+        <input type="text"
+               style="color: black"
+               ng-model="dashboard.zipcode"
+               ng-maxlength="5"
+               ng-keypress="dashboard.updateZipcode($event)"/>
         ZIP CODE: {{ dashboard.zipcode }}
     </div>
     
