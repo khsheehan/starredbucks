@@ -2,18 +2,21 @@ package models;
 
 import javax.persistence.*;
 
-import com.avaje.ebean.Ebean;
+import com.avaje.ebean.*;
 import com.avaje.ebean.Query;
-import com.avaje.ebean.RawSql;
-import com.avaje.ebean.RawSqlBuilder;
 import play.data.validation.*;
 import play.db.ebean.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Entity
 @Table(name = "locations2")
 public class Location extends Model {
+
+    public static Logger logger = Logger.getLogger("controllers.location");
 
     // Fields
     public String brand;
@@ -39,6 +42,8 @@ public class Location extends Model {
     public String latitude;
     public String longitude;
     public String insert_date;
+
+    public static Finder<Object, Location> find = new Finder<Object, Location>(Object.class, Location.class);
     
     public static List<Location> getLocationsByRadLatLng(String rad, String lat, String lng) {
         
@@ -63,6 +68,13 @@ public class Location extends Model {
         
         try {
             final int MAX_RETURNED = 350;
+            final String MAX_RADIUS = "250";
+            String radius;
+            if (Integer.parseInt(rad) <= 0) {
+                radius = MAX_RADIUS;
+            } else {
+                radius = rad;
+            }
             String radiusQuery = "" + 
                 "SELECT *,\n" +
                 "    (3959 * acos(cos(radians(\n" +
@@ -80,13 +92,23 @@ public class Location extends Model {
                 "    ))))\n" +
                 "AS distance\n" +
                 "FROM locations2\n" +
-                "HAVING distance < " + rad + "\n" +
+                "HAVING distance < " + radius + "\n" +
                 "ORDER BY distance\n" +
                 "LIMIT 0 , " + MAX_RETURNED + ";\n";
 
-            RawSql raw = RawSqlBuilder.parse(radiusQuery).create();
-            Query<Location> query = Ebean.find(Location.class);
-            return query.setRawSql(raw).findList();            
+            List<SqlRow> sqlRows = Ebean.createSqlQuery("SELECT * FROM locations2 LIMIT 100;").findList();
+            Location currentLocation;
+            List<Location> locations = new ArrayList<Location>();
+            for (int i = 0; i < sqlRows.size(); i++) {
+                currentLocation = new Location();
+                currentLocation.store_number = sqlRows.get(i).getString("store_number");
+                currentLocation.name = sqlRows.get(i).getString("name");
+                currentLocation.latitude = sqlRows.get(i).getString("latitude");
+                currentLocation.longitude = sqlRows.get(i).getString("longitude");
+                locations.add(currentLocation);
+            }
+            
+            return locations;
 
         } catch (Exception e) {
             // TODO: Return some relevant error code

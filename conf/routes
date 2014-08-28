@@ -3,16 +3,20 @@
 # ~~~~
 
 # Index
-GET     /                           controllers.Application.index()
+GET     /                               controllers.Application.index()
 
 # Reviews API
-GET     /api/reviews/:store_id      controllers.ReviewAPI.getReviewsByStoreId(store_id: String)
+GET     /api/locations/:rad/:lat/:lng   controllers.LocationAPI.getLocationsByRadLatLng(rad: String, lat: String, lng: String)
+
+# Reviews API
+GET     /api/reviews/:store_id          controllers.ReviewAPI.getReviewsByStoreId(store_id: String)
+POST    /api/reviews/:store_id          controllers.ReviewAPI.addNewStoreReview(store_id: String)
 
 # User API
-POST    /api/user/signup            controllers.UserAPI.signup()
-POST    /api/user/login             controllers.UserAPI.login()
-GET     /api/user/logout            controllers.UserAPI.logout()
-POST    /api/user/zip               controllers.UserAPI.updateZipcode()
+POST    /api/user/signup                controllers.UserAPI.signup()
+POST    /api/user/login                 controllers.UserAPI.login()
+GET     /api/user/logout                controllers.UserAPI.logout()
+POST    /api/user/zip                   controllers.UserAPI.updateZipcode()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                   controllers.Assets.at(path="/public", file)

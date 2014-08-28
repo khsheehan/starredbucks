@@ -16,7 +16,7 @@
                     controller: ['$scope', 'UserAPI', 'MapAPI', 'ReviewAPI', '$cookies', '$cookieStore', '$compile',
                         function($scope, UserAPI, MapAPI, ReviewAPI, $cookies, $cookieStore, $compile) {
                             
-                            var confirmLoggedIn, addMarkerClickEvent, initializeMap, drawMap, resizeMap,
+                            var confirmLoggedIn, addMarkerClickEvent, initializeMap, drawMap, resizeMap, geocoder,
                                 mapDefaults = { lat: 43.031, lng: -71.97, zoom: 8 };
 
                             /* ---------------------------------------------
@@ -29,12 +29,43 @@
                                 currentStoreId: 1,
                                 zipcode: $cookieStore.get("zipcode"),
                                 updateZipcode: function(event) {
-                                    var zip;
+                                    var zip, zipNum;
                                     if (event.charCode === 13 || event.charCode === 27) {
                                         zip = event.target.value;
                                         if (zip.length === 5) {
-                                            zip = parseInt(zip);
-                                            UserAPI.setZipcode({'zipcode': zip});
+                                            zipNum = parseInt(zip);
+                                            UserAPI.setZipcode({'zipcode': zipNum});
+                                            
+                                            console.log("Updated zip code...");
+                                            console.log("Getting new map results for zipcode: " + zip);
+
+                                            geocoder.geocode( { 'address': zip }, function(results, status) {
+                                                var newMapData;
+                                                
+                                                console.log(results);
+                                                
+                                                newMapData = {
+                                                    location: results[0].geometry.location,
+                                                    zoom: mapDefaults.zoom
+                                                };
+                                                
+                                                console.log("Got results from zipcode");
+                                                console.log("Redrawing map now...");
+
+                                                drawMap(newMapData);                                                
+                                                
+//                                                if (status == google.maps.GeocoderStatus.OK) {
+//                                                    map.setCenter(results[0].geometry.location);
+//                                                    var marker = new google.maps.Marker({
+//                                                        map: map,
+//                                                        position: results[0].geometry.location
+//                                                    });
+//                                                } else {
+//                                                    alert("Geocode was not successful for the following reason: " + status);
+//                                                }
+                                            });
+                                            
+                                            
                                         }
                                     }
                                 }
@@ -50,7 +81,6 @@
                              * to fit its bounding box.
                              */
                             resizeMap = function() {
-                                console.log("RESIZE");
                                 google.maps.event.trigger($scope.dashboard.map, "resize");    
                             };
 
@@ -111,30 +141,32 @@
                                 lat  = mapData.lat  || mapDefaults.lat;
                                 lng  = mapData.lng  || mapDefaults.lng;
                                 zoom = mapData.zoom || mapDefaults.zoom;
-
-                                mapOptions = {
-                                    center: new google.maps.LatLng(lat, lng),
-                                    zoom: zoom
-                                };
-
-                                // TODO: Delete any existing maps if present
-                                $scope.dashboard.map = new google.maps.Map(document.getElementById($scope.dashboard.mapId), mapOptions);
-
-                                mapPoints = MapAPI.getPoints(numStores, radius, [mapDefaults.lat, mapDefaults.lng]);
-
-                                // Construct a Google Maps marker with the JSON data, add
-                                // click events, and plot it on the map. Add the click event
-                                // and the marker to the map.
-                                for (i = 0; i < mapPoints.length; i++) {
-                                    marker = new google.maps.Marker({
-                                        storeId: mapPoints[i].id,
-                                        position: new google.maps.LatLng(mapPoints[i].lat, mapPoints[i].lng),
-                                        map: $scope.dashboard.map,
-                                        title: mapPoints[i].name
-                                    });
-                                    addMarkerClickEvent(marker);
-                                    marker.setMap($scope.dashboard.map);
+                                
+                                if ($scope.dashboard.map) {
+                                    $scope.dashboard.map.setCenter(mapData.location);
+                                } else {
+                                    $scope.dashboard.map = new google.maps.Map(document.getElementById($scope.dashboard.mapId), {
+                                        center: new google.maps.LatLng(lat, lng),
+                                        zoom: zoom
+                                    });    
                                 }
+
+                                MapAPI.getPoints(numStores, [mapDefaults.lat, mapDefaults.lng]).then(function(data) {
+                                    mapPoints = data.locations;
+                                    // Construct a Google Maps marker with the JSON data, add
+                                    // click events, and plot it on the map. Add the click event
+                                    // and the marker to the map.
+                                    for (i = 0; i < mapPoints.length; i++) {
+                                        marker = new google.maps.Marker({
+                                            storeId: mapPoints[i].id,
+                                            position: new google.maps.LatLng(mapPoints[i].lat, mapPoints[i].lng),
+                                            map: $scope.dashboard.map,
+                                            title: mapPoints[i].name
+                                        });
+                                        addMarkerClickEvent(marker);
+                                        marker.setMap($scope.dashboard.map);
+                                    }
+                                });
                             };
 
                             /*
@@ -162,6 +194,7 @@
                             /* ---------------------------------------------------
                              | Initialization scripts
                              `------------------------------------------------- */
+                            geocoder = new google.maps.Geocoder();
                             initializeMap();
                         }
                     ]

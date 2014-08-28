@@ -45,4 +45,19 @@ public class ReviewAPI extends Controller {
         
         return ok(json);
     }
+    
+    public static Result addNewStoreReview(String store_id) {
+        Http.RequestBody body = request().body();
+        String reviewText = body.asJson().findPath("review_text").asText();
+        int numStars = body.asJson().findPath("num_stars").asInt();
+        
+        Review newReview = new Review();
+        newReview.num_stars = numStars;
+        newReview.review_text = reviewText;
+        newReview.store_id = store_id;
+        newReview.user_id =  Integer.parseInt(session("uid"));
+        newReview.save();
+        
+        return ok();
+    }
 }

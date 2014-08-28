@@ -31,7 +31,7 @@
                  * is not logged in anyway.
                  */
                 logout: function() {
-                     
+
                     var $dashboardContainer = $('.dashboard-container'),
                         $storeCardContainer = $('.store-card-container');
                     

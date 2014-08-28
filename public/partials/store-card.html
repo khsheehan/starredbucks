@@ -1,6 +1,14 @@
 <div>
     <h2>Store Card</h2>
     <div style="background: green">
+        <div class="new-review">
+            Text: <input type="text" name="review-text" />
+            Stars <input type="text" name="review-stars" />
+            <button class="btn btn-default"
+                    ng-click="card.submitReview()">
+                Submit Review
+            </button>
+        </div>
         <ol>
             <li ng-repeat="review in card.reviews">
                 id: {{ review.id }} | 

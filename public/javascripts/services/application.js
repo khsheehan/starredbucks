@@ -36,14 +36,22 @@
 
             this.getStoreReviews = function(storeId) {
                 return PromiseService.processHttpResponse($http.get(BASE_URL + storeId));
-            }
+            };
+            
+            this.addStoreReview = function(storeId, reviewText, numStars) {
+                var data = {
+                    'review_text': reviewText,
+                    'num_stars': numStars
+                };
+                return PromiseService.processHttpResponse($http.post(BASE_URL + storeId, data));
+            };
         }
     ]);
 
     angular.module('starredbucks').service('MapAPI', ['$http', 'PromiseService',
         function($http, PromiseService) {
 
-            var BASE_URL = '/api/map/';
+            var BASE_URL = '/api/locations/';
             
             var dummyPoints = [{
                     id: 0,
@@ -72,12 +80,14 @@
              * count of -1 returns as many as are applicable. Note that there is a maximum
              * cap of 1000 stores in a single view.
              */
-            this.getPoints = function(count, radius, center) {
+            this.getPoints = function(rad, center) {
                 var lat = center[0],
                     lng = center[1];
-                return dummyPoints;
                 // var data = { count: count, radius: radius, center: center };
                 // return PromiseService.processHttpResponse($http.get(BASE_URL, data));
+                // return dummyPoints;
+                console.log()
+                return PromiseService.processHttpResponse($http.get(BASE_URL + rad + '/' + lat + '/' + lng));
             };
         }
     ]);

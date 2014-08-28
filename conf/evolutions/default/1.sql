@@ -3,6 +3,32 @@
 
 # --- !Ups
 
+create table locations2 (
+  brand                     varchar(255),
+  store_number              varchar(255),
+  name                      varchar(255),
+  ownership_type            varchar(255),
+  facility_id               varchar(255),
+  features_products         varchar(255),
+  features_service          varchar(255),
+  features_stations         varchar(255),
+  food_region               varchar(255),
+  venue_type                varchar(255),
+  phone_number              varchar(255),
+  location                  varchar(255),
+  street_address            varchar(255),
+  street_line_1             varchar(255),
+  street_line_2             varchar(255),
+  city                      varchar(255),
+  state                     varchar(255),
+  zip                       varchar(255),
+  country                   varchar(255),
+  coordinates               varchar(255),
+  latitude                  varchar(255),
+  longitude                 varchar(255),
+  insert_date               varchar(255))
+;
+
 create table reviews (
   id                        bigint auto_increment not null,
   store_id                  varchar(255),
@@ -26,6 +52,8 @@ create table users (
 # --- !Downs
 
 SET FOREIGN_KEY_CHECKS=0;
+
+drop table locations2;
 
 drop table reviews;
 

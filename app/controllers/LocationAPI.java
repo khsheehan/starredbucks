@@ -18,32 +18,27 @@ public class LocationAPI extends Controller {
     public static Result getLocationsByRadLatLng(String rad, String lat, String lng) {
 
         // Hit the DB to get a list of reviews
-        logger.log(Level.INFO, "Getting the stores within " + rad + " miles of lat:" + lat + " lng:" + lng + ".");
-        
         List<Location> locations = Location.getLocationsByRadLatLng(rad, lat, lng);
-        
+
         ObjectNode json = Json.newObject();
         JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
-        ArrayNode reviewsContainerJson = nodeFactory.arrayNode();
+        ArrayNode locationsContainerJson = nodeFactory.arrayNode();
 
-//        Location currentLocation;
-//        ObjectNode reviewJson;
-//        for (int i = 0; i < reviews.size(); i++) {
-//            reviewJson = Json.newObject();
-//            currentReview = reviews.get(i);
-//
-//            logger.log(Level.INFO, "Fetched review:" + currentReview.id + " from database for store:" + store_id);
-//
-//            reviewJson.put("id", currentReview.id);
-//            reviewJson.put("stars", currentReview.num_stars);
-//            reviewJson.put("text", currentReview.review_text);
-//            reviewJson.put("user_id", currentReview.user_id);
-//
-//            reviewsContainerJson.add(reviewJson);
-//        }
-//
-//        json.put("reviews", reviewsContainerJson);
+        Location currentLocation;
+        ObjectNode locationJson;
+        for (int i = 0; i < locations.size(); i++) {
+            locationJson = Json.newObject();
+            currentLocation = locations.get(i);
 
+            locationJson.put("id", currentLocation.store_number);
+            locationJson.put("name", currentLocation.name);
+            locationJson.put("lat", currentLocation.latitude);
+            locationJson.put("lng", currentLocation.longitude);
+
+            locationsContainerJson.add(locationJson);
+        }
+
+        json.put("locations", locationsContainerJson);
         return ok(json);
     }
 }
