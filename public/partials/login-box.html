@@ -8,31 +8,33 @@
             </div>
             <div class="modal-body">
                 <div id="login" ng-show="loginModal.currentView === 'login'">
-                    Username: <input ng-model="loginModal.login.username" type="text" name="username" />
-                    Password: <input ng-model="loginModal.login.password" type="text" name="password" />
+                    <paper-input style="color: #fff;" floatinglabel label="enter your username" name="username"></paper-input>
+                    <paper-input style="color: #fff;" floatinglabel label="and your password" name="password"></paper-input>
                 </div>
-                <div id="signup" ng-show="loginModal.currentView === 'signup'">
-                    Username: <input ng-model="loginModal.signup.username" type="text" name="username" />
-                    Password: <input ng-model="loginModal.signup.password" type="text" name="password" />
-                    Zip Code: <input ng-model="loginModal.signup.zipcode" type="text" name="zipcode" />
+                <div id="signup" ng-show="loginModal.currentView === 'register'">
+                    <paper-input style="color: #fff;" floatinglabel label="enter a username" name="username"></paper-input>
+                    <paper-input style="color: #fff;" floatinglabel label="and a password" name="password"></paper-input>
+                    <paper-input style="color: #fff;" maxlength="5" floatinglabel type="number" label="along with your zip code" name="zipcode"></paper-input>
                 </div>
-                <a ng-click="loginModal.toggleView()">
-                    {{ loginModal.currentView === 'login' ? 'New here? Signup' : 'Already have an account? Login' }}
-                </a>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a ng-click="loginModal.toggleView()" class="pull-left">
+                    <i ng-show="loginModal.currentView === 'register'" class="fa fa-sign-in"></i>
+                    <i ng-show="loginModal.currentView === 'login'" class="fa fa-user"></i>
+                    {{ loginModal.currentView === 'login' ? 'New here? Register' : 'Already have an account? Login' }}
+                </a>
+                <button type="button" class="btn grey small" data-dismiss="modal">Close</button>
                 <button type="button"
-                        class="btn btn-primary"
+                        class="btn white small"
                         ng-show="loginModal.currentView === 'login'"
                         ng-click="loginModal.login.login()">
                     Login
                 </button>
                 <button type="button"
-                        class="btn btn-primary"
-                        ng-show="loginModal.currentView === 'signup'"
+                        class="btn white small"
+                        ng-show="loginModal.currentView === 'register'"
                         ng-click="loginModal.signup.signup()">
-                    Signup
+                    Register
                 </button>
             </div>
         </div>

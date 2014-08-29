@@ -15,7 +15,9 @@
             <div class="logout"
                  ng-show="sb.userData.isLoggedIn"
                  ng-click="sb.logout()">
-                Click to logout
+                
+                <i class="round-button fa fa-gear" style="margin-right: 12px;"></i>
+                <i class="round-button fa fa-sign-out"></i>
             </div>
 
             <!-- Login and signup modal -->
@@ -23,15 +25,16 @@
             
             <!-- Before a user is logged in, show a splash screen with the login modal present -->
             <div id="splash-screen" ng-hide="sb.userData.isLoggedIn">
-                <h1>StarredBucks!</h1>
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">
-                    Login / Signup
-                </button>
+                <h1>StarredBucks</h1>
+                <div class="login-container">
+                    <button class="btn btn-lg" data-toggle="modal" data-target="#login-modal">
+                        Login or Register
+                    </button>
+                </div>
             </div>
 
             <!-- The dashboard is presented to logged in users -->
             <div class="dashboard-container" ng-show="sb.userData.isLoggedIn"></div>
-            <!--<dashboard ng-show="sb.userData.isLoggedIn" logged-in="sb.userData.isLoggedIn"></dashboard>-->
 
             <!-- Holds details about the store in focus (store-card elements will be dynamically injected) -->
             <div class="store-card-container" ng-show="sb.userData.isLoggedIn"></div>

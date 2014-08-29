@@ -11,21 +11,128 @@ body {
   div#wrapper {
     padding: 20px;
     position: absolute;
-    top: 14px;
-    right: 14px;
-    bottom: 14px;
-    left: 14px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-color: @starbucks-green;
+    background-image: url('../images/bg.jpg');
+  }
+
+  button.btn {
+    font-weight: 100;
+    margin-top: 40px;
+    background-color: @black;
+    font-size: 1.5em;
+    padding: 12px 40px;
+    border: solid 1px @black;
+
+    -webkit-transition: border 0.25s;
+    transition: border 0.25s;
+    
+    &.grey {
+      color: @black;
+      background-color: @gray;
+      &:hover {
+        border: solid 1px @black;
+        color: @black;
+        -webkit-transition: border 0.25s;
+        transition: border 0.25s;
+      }
+    }
+    
+    &.small {
+      margin-top: 0;
+      font-size: 18px;
+      padding: 6px 24px;
+    }
+    
+    &.white {
+      color: @black;
+      background-color: @white;
+
+      &:hover {
+        border: solid 1px @black;
+        color: @black;
+        -webkit-transition: border 0.25s;
+        transition: border 0.25s;
+      }
+    }
+
+    &:hover {
+      border: solid 1px @white;
+      color: @white;
+      -webkit-transition: border 0.25s;
+      transition: border 0.25s;
+    }
+  }
+  
+  div#splash-screen {
+    font-weight: 100;
+    margin: 50px 0 0 50px;
+    display: inline-block;
+    
+    div.login-container {
+      text-align: center;
+    }
+  }
+  
+  a {
+    font-weight: 100;
+    font-size: 1.25em;
+  }
+  
+  div.modal-dialog {
+    margin-top: 60px;
+  }
+  
+  div.modal-content {
+    background-color: @black;
+    color: @white;
+    
+    .modal-header, .modal-footer {
+      border-color: #444;
+    }
+    
+    .modal-header {
+      h4 {
+        font-weight: 100;
+        font-size: 2em;
+        text-align: center;
+      }
+      button {
+        display: none;
+      }
+    }
+  }
+  
+  .zipcode-box {
+    border-radius: 3px;
+    z-index: 2;
+    position: absolute;
+    background: #222;
+    left: 20px;
+    top: 20px;
+    padding: 13px;
+    width: 300px;
+    height: 120px;
+  }
+
+  .round-button {
+    background: #222;
+    padding: 12px 15px;
+    border-radius: 50%;
+    font-size: 2em;
+    color: #fff;
   }
   
   div.logout {
     position: absolute;
     top: 0;
-    right: 0;
-    color: #000;
+    right: 7px;
+    color: @black;
     z-index: 1;
     display: inline-block;
     padding: 20px;
-    background: #fff;
   }
 }

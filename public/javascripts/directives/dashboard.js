@@ -17,7 +17,7 @@
                         function($scope, UserAPI, MapAPI, ReviewAPI, $cookies, $cookieStore, $compile) {
                             
                             var confirmLoggedIn, addMarkerClickEvent, initializeMap, drawMap, resizeMap, geocoder,
-                                mapDefaults = { lat: 43.031, lng: -71.97, zoom: 8 };
+                                mapDefaults = { lat: 43.031, lng: -71.97, zoom: 13 };
 
                             /* ---------------------------------------------
                              | Directive's scope bound objects and functions
@@ -28,44 +28,40 @@
                                 greeting: "Hello!",
                                 currentStoreId: 1,
                                 zipcode: $cookieStore.get("zipcode"),
+                                currentLocationString: "",
                                 updateZipcode: function(event) {
-                                    var zip, zipNum;
-                                    if (event.charCode === 13 || event.charCode === 27) {
-                                        zip = event.target.value;
+                                    var zip, zipNum, newVal, $zipcode, numPressed;
+
+                                    // Get the input element that holds the zip
+                                    $zipcode = $('[name=update-zipcode]');
+
+                                    // Check to make sure it was a number press
+                                    var key = event.keyCode || event.charCode;
+                                    if (key >= 48 && key <= 57) {
+                                        numPressed = key - 48;
+                                        $zipcode.blur(); // Force an update on the paper-input element
+                                        $zipcode.focus();
+                                        $scope.dashboard.zipcode = $('[name=update-zipcode]').val() + numPressed;
+                                    } else if (key === 13 || key === 27) {
+                                        zip = $scope.dashboard.zipcode;
                                         if (zip.length === 5) {
                                             zipNum = parseInt(zip);
                                             UserAPI.setZipcode({'zipcode': zipNum});
-                                            
-                                            console.log("Updated zip code...");
-                                            console.log("Getting new map results for zipcode: " + zip);
-
                                             geocoder.geocode( { 'address': zip }, function(results, status) {
                                                 var newMapData;
-                                                
-                                                console.log(results);
-                                                
+
                                                 newMapData = {
+                                                    lat: results[0].geometry.location.k,
+                                                    lng: results[0].geometry.location.B,
                                                     location: results[0].geometry.location,
                                                     zoom: mapDefaults.zoom
                                                 };
-                                                
-                                                console.log("Got results from zipcode");
-                                                console.log("Redrawing map now...");
 
-                                                drawMap(newMapData);                                                
-                                                
-//                                                if (status == google.maps.GeocoderStatus.OK) {
-//                                                    map.setCenter(results[0].geometry.location);
-//                                                    var marker = new google.maps.Marker({
-//                                                        map: map,
-//                                                        position: results[0].geometry.location
-//                                                    });
-//                                                } else {
-//                                                    alert("Geocode was not successful for the following reason: " + status);
-//                                                }
+                                                // Update the current, user-facing location
+                                                $scope.dashboard.currentLocationString = results[0].address_components[1].long_name;
+
+                                                drawMap(newMapData);
                                             });
-                                            
-                                            
                                         }
                                     }
                                 }
@@ -137,22 +133,24 @@
                                     numStores = -1,
                                     radius    = 10,
                                     mapData   = startingPoint || {};
-                                
+
                                 lat  = mapData.lat  || mapDefaults.lat;
                                 lng  = mapData.lng  || mapDefaults.lng;
                                 zoom = mapData.zoom || mapDefaults.zoom;
-                                
-                                if ($scope.dashboard.map) {
+
+                                if (false) {
                                     $scope.dashboard.map.setCenter(mapData.location);
                                 } else {
                                     $scope.dashboard.map = new google.maps.Map(document.getElementById($scope.dashboard.mapId), {
                                         center: new google.maps.LatLng(lat, lng),
                                         zoom: zoom
-                                    });    
+                                    });
                                 }
 
-                                MapAPI.getPoints(numStores, [mapDefaults.lat, mapDefaults.lng]).then(function(data) {
+                                MapAPI.getPoints(numStores, [lat, lng]).then(function(data) {
+
                                     mapPoints = data.locations;
+                                    
                                     // Construct a Google Maps marker with the JSON data, add
                                     // click events, and plot it on the map. Add the click event
                                     // and the marker to the map.
@@ -174,21 +172,32 @@
                              * the $scope bound map object.
                              */
                             initializeMap = function() {
-                                var i = 0,
-                                    initialMapData = {},
-                                    interval; // TODO: Get actual initial center point and zoom data
+                                geocoder.geocode( { 'address': $scope.dashboard.zipcode }, function(results, status) {
+                                    var i = 0,
+                                        initialMapData,
+                                        interval;
 
-                                drawMap(initialMapData);
-                                
-                                // Note that this is fairly hackish and is not an ideal
-                                // solution to the Google Maps API redraw bug.
-                                interval = setInterval(function() {
-                                    if (i++ === 10) {
-                                        clearInterval(interval);
-                                    } else {
-                                        resizeMap();
-                                    }
-                                }, 500);
+                                    initialMapData = {
+                                        lat: results[0].geometry.location.k,
+                                        lng: results[0].geometry.location.B,
+                                        zoom: mapDefaults.zoom
+                                    };
+
+                                    $scope.dashboard.currentLocationString = results[0].address_components[1].long_name;
+                                    drawMap(initialMapData);
+
+                                    // Note that this is fairly hackish and is not an ideal
+                                    // solution to the Google Maps API redraw bug.
+                                    interval = setInterval(function() {
+                                        if (i++ === 5) {
+                                            $scope.dashboard.map.setCenter(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.B));
+                                            $('.map-wrapper').addClass('in');
+                                            clearInterval(interval);
+                                        } else {
+                                            resizeMap();
+                                        }
+                                    }, 500);
+                                });
                             };
 
                             /* ---------------------------------------------------

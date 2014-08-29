@@ -9,6 +9,7 @@
         <!-- Vendor Stylesheets -->
         <link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/vendor/bootstrap.min.css")'>
         <link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/vendor/bootstrap-theme.min.css")'>
+        <link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/vendor/font-awesome.min.css")'>
         
         <!-- Application Stylesheets -->
         <link rel='stylesheet' media='screen' href='@routes.Assets.at("stylesheets/main.css")'>
@@ -28,6 +29,16 @@
         <script src='@routes.Assets.at("javascripts/directives/store-card.js")' type='text/javascript'></script>
         <script src='@routes.Assets.at("javascripts/directives/dashboard.js")' type='text/javascript'></script>
         <script src='@routes.Assets.at("javascripts/controllers/application.js")' type='text/javascript'></script>
+        
+        <!-- Polymer Components -->
+        <script src='@routes.Assets.at("components/platform/platform.js")' type='text/javascript'></script>
+        <link rel="import" href='@routes.Assets.at("components/paper-input/paper-input.html")'>
+        <link rel="import" href='@routes.Assets.at("components/paper-tabs/paper-tab.html")'>
+        <link rel="import" href='@routes.Assets.at("components/paper-tabs/paper-tabs.html")'>
+        
+        <script>
+            CoreStyle.g.paperInput.focusedColor = "#007042";
+        </script>
 
     </head>
     <body>

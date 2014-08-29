@@ -78,15 +78,10 @@
             /*
              * Get `count` stores within `radius` miles from `center` (lat, lng). A
              * count of -1 returns as many as are applicable. Note that there is a maximum
-             * cap of 1000 stores in a single view.
+             * cap of 350 stores in a single view.
              */
             this.getPoints = function(rad, center) {
-                var lat = center[0],
-                    lng = center[1];
-                // var data = { count: count, radius: radius, center: center };
-                // return PromiseService.processHttpResponse($http.get(BASE_URL, data));
-                // return dummyPoints;
-                console.log()
+                var lat = center[0], lng = center[1];
                 return PromiseService.processHttpResponse($http.get(BASE_URL + rad + '/' + lat + '/' + lng));
             };
         }

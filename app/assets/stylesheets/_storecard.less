@@ -1,8 +1,70 @@
 store-card {
-  background: red;
   position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 30%;
-  width: 100%;
+  bottom: 20px;
+  left: 20px;
+  top: 160px;
+  width: 300px;
+  padding: 13px;
+  background: #fff;
+  color: #222;
+  border-radius: 3px;
+
+  paper-tabs.green::shadow #selectionBar {
+    background-color: #007042;
+  }
+
+  .green paper-tab::shadow #ink {
+    color: #007042;
+  }
+  
+  .info-wrapper {
+    margin-top: 36px;
+  }
+  
+  button.btn.add-review {
+    margin-top: 0;
+    padding: 4px 11px;
+    float: right;
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 1px;
+    color: #fff;
+    background-color: #222;
+    -webkit-transition: border 0.25s;
+    transition: border 0.25s;
+    -webkit-transition: background-color 0.25s;
+    transition: background-color 0.25s;
+    
+    &:hover {
+      color: #fff;
+      background-color: @starbucks-green;
+      border-color: @starbucks-green;
+      -webkit-transition: border 0.25s;
+      transition: border 0.25s;
+      -webkit-transition: background-color 0.25s;
+      transition: background-color 0.25s;
+    }
+    
+    i {
+      margin-right: 4px;
+      position: relative;
+      top: 1px;
+    }
+  }
+  
+  .star-list {
+    list-style-type: none;
+    list-style-position: outside;
+    font-size: 20px;
+    margin-left: -40px;
+    display: inline-block;
+    
+    &.locked {
+      color: gold;
+    }
+    
+    li {
+      display: inline-block;
+    }
+  }
 }

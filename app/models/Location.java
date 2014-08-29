@@ -96,7 +96,7 @@ public class Location extends Model {
                 "ORDER BY distance\n" +
                 "LIMIT 0 , " + MAX_RETURNED + ";\n";
 
-            List<SqlRow> sqlRows = Ebean.createSqlQuery("SELECT * FROM locations2 LIMIT 100;").findList();
+            List<SqlRow> sqlRows = Ebean.createSqlQuery(radiusQuery).findList();
             Location currentLocation;
             List<Location> locations = new ArrayList<Location>();
             for (int i = 0; i < sqlRows.size(); i++) {

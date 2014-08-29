@@ -57,6 +57,8 @@ public class ReviewAPI extends Controller {
         newReview.store_id = store_id;
         newReview.user_id =  Integer.parseInt(session("uid"));
         newReview.save();
+//        newUser.zip = zipcode;
+//        newUser.save();
         
         return ok();
     }
