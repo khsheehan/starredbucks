@@ -32,6 +32,8 @@ public class LocationAPI extends Controller {
 
             locationJson.put("id", currentLocation.store_number);
             locationJson.put("name", currentLocation.name);
+            locationJson.put("phone_number", currentLocation.phone_number);
+            locationJson.put("address", currentLocation.street_address);
             locationJson.put("lat", currentLocation.latitude);
             locationJson.put("lng", currentLocation.longitude);
 

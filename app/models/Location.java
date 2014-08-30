@@ -65,7 +65,6 @@ public class Location extends Model {
          * ............\..............(
          * .............\.............\
          */
-        
         try {
             final int MAX_RETURNED = 350;
             final String MAX_RADIUS = "250";

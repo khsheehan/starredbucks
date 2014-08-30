@@ -28,8 +28,13 @@
                                     username: null,
                                     password: null,
                                     login: function() {
-                                        var username = $scope.loginModal.login.username,
-                                            password = $scope.loginModal.login.password;
+                                        var username, password;
+
+                                        username = $('#login').find('> paper-input[name=username]').val();
+                                        $scope.loginModal.login.username = username;
+
+                                        password = $('#login').find('> paper-input[name=password]').val();
+                                        $scope.loginModal.login.password = password;
 
                                         UserAPI.login({username: username, password: password}).
                                             then(function(data) {
@@ -45,9 +50,16 @@
                                     password: null,
                                     zipcode: null,
                                     signup: function() {
-                                        var username = $scope.loginModal.signup.username,
-                                            password = $scope.loginModal.signup.password,
-                                            zipcode = $scope.loginModal.signup.zipcode;
+                                        var username, password, zipcode;
+
+                                        username = $('#signup').find('> paper-input[name=username]').val();
+                                        $scope.loginModal.login.username = username;
+
+                                        password = $('#signup').find('> paper-input[name=password]').val();
+                                        $scope.loginModal.login.password = password;
+
+                                        zipcode = $('#signup').find('> paper-input[name=zipcode]').val();
+                                        $scope.loginModal.login.zipcode = zipcode;
 
                                         UserAPI.signup({username: username, password: password, zipcode: zipcode}).
                                             then(function(data) {

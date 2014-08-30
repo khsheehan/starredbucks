@@ -30,7 +30,7 @@
                                 zipcode: $cookieStore.get("zipcode"),
                                 currentLocationString: "",
                                 updateZipcode: function(event) {
-                                    var zip, zipNum, newVal, $zipcode, numPressed;
+                                    var zip, $zipcode, numPressed;
 
                                     // Get the input element that holds the zip
                                     $zipcode = $('[name=update-zipcode]');
@@ -45,8 +45,7 @@
                                     } else if (key === 13 || key === 27) {
                                         zip = $scope.dashboard.zipcode;
                                         if (zip.length === 5) {
-                                            zipNum = parseInt(zip);
-                                            UserAPI.setZipcode({'zipcode': zipNum});
+                                            UserAPI.setZipcode({ 'zipcode': zip });
                                             geocoder.geocode( { 'address': zip }, function(results, status) {
                                                 var newMapData;
 
@@ -98,19 +97,25 @@
                              */
                             addMarkerClickEvent = function(marker) {
                                 google.maps.event.addListener(marker, 'click', function() {
-                                    var $storeCardContainer = $('.store-card-container');
+                                    var $storeCardContainer = $('.store-card-container'),
+                                        storeCardParamsString = '';
 
                                     // Update the current store id and 
-                                    $scope.dashboard.currentStoreId = marker.storeId;
-
+                                    $scope.dashboard.currentStoreId = marker.info.id;
+                                    
                                     // Fade out then clear the existing store card
                                     $storeCardContainer.find('store-card').fadeOut('fast', function() {
                                         this.remove();
                                     });
 
+                                    storeCardParamsString += ' id="\'' + marker.info.id + '\'" ';
+                                    storeCardParamsString += ' name="\'' + marker.info.name + '\'" ';
+                                    storeCardParamsString += ' address="\'' + marker.info.address + '\'" ';
+                                    storeCardParamsString += ' phoneNumber="\'' + marker.info.phone_number + '\'" ';
+                                    
                                     // Add a new store-card onto the dashboard and fade it in
-                                    $storeCardContainer.append($compile('<store-card style="display: none;" store-id="' + marker.storeId + '"></store-card>')($scope));
-                                    $storeCardContainer.find('store-card').fadeIn('fast');                                    
+                                    $storeCardContainer.append($compile('<store-card style="display: none;"' + storeCardParamsString + '></store-card>')($scope));
+                                    $storeCardContainer.find('store-card').fadeIn('fast');
                                 });
                             };
 
@@ -138,17 +143,13 @@
                                 lng  = mapData.lng  || mapDefaults.lng;
                                 zoom = mapData.zoom || mapDefaults.zoom;
 
-                                if (false) {
-                                    $scope.dashboard.map.setCenter(mapData.location);
-                                } else {
-                                    $scope.dashboard.map = new google.maps.Map(document.getElementById($scope.dashboard.mapId), {
-                                        center: new google.maps.LatLng(lat, lng),
-                                        zoom: zoom
-                                    });
-                                }
+                                $scope.dashboard.map = new google.maps.Map(document.getElementById($scope.dashboard.mapId), {
+                                    center: new google.maps.LatLng(lat, lng),
+                                    zoom: zoom
+                                });
 
                                 MapAPI.getPoints(numStores, [lat, lng]).then(function(data) {
-
+                                    
                                     mapPoints = data.locations;
                                     
                                     // Construct a Google Maps marker with the JSON data, add
@@ -156,10 +157,9 @@
                                     // and the marker to the map.
                                     for (i = 0; i < mapPoints.length; i++) {
                                         marker = new google.maps.Marker({
-                                            storeId: mapPoints[i].id,
                                             position: new google.maps.LatLng(mapPoints[i].lat, mapPoints[i].lng),
                                             map: $scope.dashboard.map,
-                                            title: mapPoints[i].name
+                                            info: mapPoints[i]
                                         });
                                         addMarkerClickEvent(marker);
                                         marker.setMap($scope.dashboard.map);
@@ -205,6 +205,36 @@
                              `------------------------------------------------- */
                             geocoder = new google.maps.Geocoder();
                             initializeMap();
+                            
+                            // Attach geolocation behavior
+                            if (navigator.geolocation) {
+                                $('.enable-geolocation').click(function() {
+                                    console.log("Enabling geolocation");
+                                    navigator.geolocation.getCurrentPosition(function(pos) {
+                                        var newMapData, lat, lng;
+
+                                        lat = pos.coords.latitude;
+                                        lng = pos.coords.longitude;
+
+                                        newMapData = {
+                                            lat: lat,
+                                            lng: lng,
+                                            zoom: mapDefaults.zoom
+                                        };
+
+                                        // Update the current, user-facing location
+                                        $scope.dashboard.currentLocationString = "Geolocation";
+                                        drawMap(newMapData);
+                                        
+                                    }, function(err) {
+                                        console.log("An error occurred");
+                                    });
+                                });
+                            } else {
+                                $('.enable-geolocation').hide();
+                            }
+                            
+                            // navigator.geolocation.getCurrentPosition(function(d) { console.log(d) });
                         }
                     ]
                 };

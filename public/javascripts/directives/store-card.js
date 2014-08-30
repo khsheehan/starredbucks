@@ -11,7 +11,10 @@
                 return {
                     restrict: 'E',
                     scope: {
-                        storeId: '='
+                        id: '=',
+                        name: '=',
+                        address: '=',
+                        phoneNumber: '='
                     },
                     templateUrl: '/assets/partials/store-card.html',
                     replace: false,
@@ -23,11 +26,15 @@
                              `------------------------------------------- */
                             
                             $scope.card = {
-                                id: $scope.storeId,
-                                name: null,
+                                id: $scope.id,
+                                name: $scope.name,
+                                address: $scope.address,
+                                phoneNumber: $scope.phoneNumber,
                                 reviews: [],
+                                averageNumStars: 0,
+                                averageNumStarsForDisplay: 0,
                                 currentUserReview: null,
-                                currentView: 'reviews',
+                                currentView: 'info',
                                 setView: function(view) {
                                     $scope.card.currentView = view;
                                 },
@@ -45,17 +52,27 @@
                                             });
                                         })
                                     } else {
-                                        alert("You didn't write a fucking review."); // TODO: Fix this
+                                        alert("You didn't review."); // TODO: Fix this
                                     }
                                 }
                             };
+                            
+                            console.log($scope.card);
                             
                             /* ---------------------------------------------
                              | Initialization script
                              `------------------------------------------- */
 
                             ReviewAPI.getStoreReviews($scope.card.id).then(function(storeData) {
+                                var i, totalStars = 0;
                                 $scope.card.reviews = storeData.reviews;
+                                
+                                for (i = 0; i < storeData.reviews.length; i++) {
+                                    totalStars += storeData.reviews[i].stars;
+                                }
+
+                                $scope.card.averageNumStars = totalStars / storeData.reviews.length;
+                                $scope.card.averageNumStarsForDisplay = Math.round($scope.card.averageNumStars);
                             });
                             
                             // Attach all star rating functionality

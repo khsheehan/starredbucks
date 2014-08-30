@@ -1,7 +1,7 @@
 <div>
     <paper-tabs class="green" selected="0">
-        <paper-tab ng-click="card.setView('reviews')">REVIEWS</paper-tab>
         <paper-tab ng-click="card.setView('info')">STORE INFO</paper-tab>
+        <paper-tab ng-click="card.setView('reviews')">REVIEWS</paper-tab>
     </paper-tabs>
     <div class="review-wrapper" ng-show="card.currentView === 'reviews'">
         <div class="new-review">
@@ -55,6 +55,35 @@
         </div>
     </div>
     <div class="info-wrapper" ng-show="card.currentView === 'info'">
-        Store Info
+        <h4>{{ card.name }}</h4>
+        <div ng-show="card.averageNumStars">
+            Average ({{ card.averageNumStars | number:2 }})
+            <ul class="star-list locked"
+                style="position: relative; top: 2px; left: 12px;">
+                <li>
+                    <i ng-show="card.averageNumStarsForDisplay < 1" class="fa fa-star-o"></i>
+                    <i ng-show="card.averageNumStarsForDisplay >= 1" class="fa fa-star"></i>
+                </li>
+                <li>
+                    <i ng-show="card.averageNumStarsForDisplay < 2" class="fa fa-star-o"></i>
+                    <i ng-show="card.averageNumStarsForDisplay >= 2" class="fa fa-star"></i>
+                </li>
+                <li>
+                    <i ng-show="card.averageNumStarsForDisplay < 3" class="fa fa-star-o"></i>
+                    <i ng-show="card.averageNumStarsForDisplay >= 3" class="fa fa-star"></i>
+                </li>
+                <li>
+                    <i ng-show="card.averageNumStarsForDisplay < 4" class="fa fa-star-o"></i>
+                    <i ng-show="card.averageNumStarsForDisplay >= 4" class="fa fa-star"></i>
+                </li>
+                <li>
+                    <i ng-show="card.averageNumStarsForDisplay < 5" class="fa fa-star-o"></i>
+                    <i ng-show="card.averageNumStarsForDisplay >= 5" class="fa fa-star"></i>
+                </li>
+            </ul>
+        </div>
+
+        Address: {{ card.address && card.address !== "null" ? card.address : "none provided" }}<br />
+        Address: {{ card.phoneNumber && card.phoneNumber !== "null" ? card.phoneNumber : "none provided" }}<br />
     </div>
 </div>

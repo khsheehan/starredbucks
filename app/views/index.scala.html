@@ -12,12 +12,12 @@
     <div ng-app="starredbucks.Application">
         <div ng-controller="StarredBucksApp">
 
-            <div class="logout"
-                 ng-show="sb.userData.isLoggedIn"
-                 ng-click="sb.logout()">
+            <div ng-show="sb.userData.isLoggedIn"
+                 class="button-box">
                 
-                <i class="round-button fa fa-gear" style="margin-right: 12px;"></i>
-                <i class="round-button fa fa-sign-out"></i>
+                <i class="round-button fa fa-globe enable-geolocation" style="margin-right: 12px;"></i>
+                <i ng-click="sb.logout()"
+                   class="round-button fa fa-sign-out logout"></i>
             </div>
 
             <!-- Login and signup modal -->
