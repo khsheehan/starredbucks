@@ -49,22 +49,7 @@ public class Location extends Model {
         
         // TODO: Implement some basic validation for lat lng (length, value, parseInt, etc.)
         // TODO: Implement some basic validation for maximum radius
-        
-        /*
-         * This is IN-FUCKING-CREDIBLY UN-FUCKING-SAFE.
-         * But IDGAF.
-         * #yolo.
-         * ....................../´¯/)
-         * ....................,/¯../
-         * .................../..../
-         * ............./´¯/'...'/´¯¯`·¸
-         * ........../'/.../..../......./¨¯\
-         * ........('(...´...´.... ¯~/'...')
-         * .........\.................'..../
-         * ..........\................._.·´
-         * ............\..............(
-         * .............\.............\
-         */
+
         try {
             final int MAX_RETURNED = 350;
             final String MAX_RADIUS = "250";
