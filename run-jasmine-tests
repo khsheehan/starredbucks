@@ -1,0 +1,6 @@
+#!/bin/bash
+
+rm -f test/js/jasmine-standalone-2.0.2/src/*.js
+
+cp public/javascripts/controllers/* test/js/jasmine-standalone-2.0.2/src/
+cp public/javascripts/directives/* test/js/jasmine-standalone-2.0.2/src/

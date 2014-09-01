@@ -24,16 +24,43 @@ import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
-/**
- *
- * Simple (JUnit) tests that can call all parts of a play app.
- * If you are interested in mocking a whole application, see the wiki for more details.
- *
- */
 public class LocationAPITest {
-    
+
     @Test
-    public void getLocations() {
+    public void getZeroLocations() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Mockito.when(Location.getLocationsByRadLatLng("0","0","0")).thenReturn(new ArrayList<Location>());
+                assertThat(LocationAPI.getLocationsByRadLatLng("0","0","0").toScala().toString().equals(""));
+            }
+        });
+    }
+
+    @Test
+    public void getOneLocation() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Location loc = mock(Location.class);
+                List<Location> fakeLocationList = new ArrayList<Location>();
+                fakeLocationList.add(loc);
+                Mockito.when(Location.getLocationsByRadLatLng("0","0","0")).thenReturn(fakeLocationList);
+                assertThat(LocationAPI.getLocationsByRadLatLng("0","0","0").equals(fakeLocationList));
+            }
+        });
+    }
+
+    @Test
+    public void getMultipleLocation() {
+        running(fakeApplication(), new Runnable() {
+            public void run() {
+                Location loc = mock(Location.class);
+                List<Location> fakeLocationList = new ArrayList<Location>();
+                fakeLocationList.add(loc);
+                fakeLocationList.add(loc);
+                fakeLocationList.add(loc);
+                Mockito.when(Location.getLocationsByRadLatLng("0","0","0")).thenReturn(fakeLocationList);
+                assertThat(LocationAPI.getLocationsByRadLatLng("0","0","0").equals(fakeLocationList));
+            }
+        });
     }
 }
