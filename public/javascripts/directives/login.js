@@ -42,7 +42,7 @@
                                                 $(window).trigger('loadMap');
                                             }).
                                             catch(function() {
-                                                // TODO: Implement some error handling
+                                                alert("We're sorry, either your credentials are wrong or that account does not exist.");
                                             });
                                     }
                                 }, signup: {
@@ -67,11 +67,11 @@
                                                 $(window).trigger('loadMap');
                                             }).
                                             catch(function() {
-                                                // TODO: Implement some error handling
+                                                alert("There was an error registering. Make sure you fill out all required fields and pick a username that isn't taken.");
                                             });
                                     }
                                 }, toggleView: function() {
-                                    var view = $scope.loginModal.currentView === 'login' ? 'signup' : 'login';
+                                    var view = $scope.loginModal.currentView === 'login' ? 'register' : 'login';
                                     $scope.loginModal.currentView = view;
                                 }
                             };

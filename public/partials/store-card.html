@@ -23,35 +23,37 @@
             </button>
         </div>
         <hr />
-        <div ng-repeat="review in card.reviews">
-            <div>
-                <ul class="star-list locked">
-                    <li>
-                        <i ng-show="review.stars < 1" class="fa fa-star-o"></i>
-                        <i ng-show="review.stars >= 1" class="fa fa-star"></i>
-                    </li>
-                    <li>
-                        <i ng-show="review.stars < 2" class="fa fa-star-o"></i>
-                        <i ng-show="review.stars >= 2" class="fa fa-star"></i>
-                    </li>
-                    <li>
-                        <i ng-show="review.stars < 3" class="fa fa-star-o"></i>
-                        <i ng-show="review.stars >= 3" class="fa fa-star"></i>
-                    </li>
-                    <li>
-                        <i ng-show="review.stars < 4" class="fa fa-star-o"></i>
-                        <i ng-show="review.stars >= 4" class="fa fa-star"></i>
-                    </li>
-                    <li>
-                        <i ng-show="review.stars < 5" class="fa fa-star-o"></i>
-                        <i ng-show="review.stars >= 5" class="fa fa-star"></i>
-                    </li>
-                </ul>
+        <div class="existing-reviews">
+            <div ng-repeat="review in card.reviews">
+                <div>
+                    <ul class="star-list locked">
+                        <li>
+                            <i ng-show="review.stars < 1" class="fa fa-star-o"></i>
+                            <i ng-show="review.stars >= 1" class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i ng-show="review.stars < 2" class="fa fa-star-o"></i>
+                            <i ng-show="review.stars >= 2" class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i ng-show="review.stars < 3" class="fa fa-star-o"></i>
+                            <i ng-show="review.stars >= 3" class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i ng-show="review.stars < 4" class="fa fa-star-o"></i>
+                            <i ng-show="review.stars >= 4" class="fa fa-star"></i>
+                        </li>
+                        <li>
+                            <i ng-show="review.stars < 5" class="fa fa-star-o"></i>
+                            <i ng-show="review.stars >= 5" class="fa fa-star"></i>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <strong>{{ review.username }}</strong>: {{ review.text }}
+                </div>
+                <hr />
             </div>
-            <div>
-                {{ review.text }}
-            </div>
-            <hr />
         </div>
     </div>
     <div class="info-wrapper" ng-show="card.currentView === 'info'">
@@ -84,6 +86,6 @@
         </div>
 
         Address: {{ card.address && card.address !== "null" ? card.address : "none provided" }}<br />
-        Address: {{ card.phoneNumber && card.phoneNumber !== "null" ? card.phoneNumber : "none provided" }}<br />
+        Phone Number: {{ card.number && card.number !== "null" ? card.number : "none provided" }}<br />
     </div>
 </div>

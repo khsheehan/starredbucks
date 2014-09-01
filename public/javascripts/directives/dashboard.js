@@ -111,7 +111,7 @@
                                     storeCardParamsString += ' id="\'' + marker.info.id + '\'" ';
                                     storeCardParamsString += ' name="\'' + marker.info.name + '\'" ';
                                     storeCardParamsString += ' address="\'' + marker.info.address + '\'" ';
-                                    storeCardParamsString += ' phoneNumber="\'' + marker.info.phone_number + '\'" ';
+                                    storeCardParamsString += ' number="\'' + marker.info.phone_number + '\'" ';
                                     
                                     // Add a new store-card onto the dashboard and fade it in
                                     $storeCardContainer.append($compile('<store-card style="display: none;"' + storeCardParamsString + '></store-card>')($scope));
@@ -151,6 +151,8 @@
                                 MapAPI.getPoints(numStores, [lat, lng]).then(function(data) {
                                     
                                     mapPoints = data.locations;
+                                    
+                                    console.log(mapPoints);
                                     
                                     // Construct a Google Maps marker with the JSON data, add
                                     // click events, and plot it on the map. Add the click event

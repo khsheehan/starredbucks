@@ -14,7 +14,7 @@
                         id: '=',
                         name: '=',
                         address: '=',
-                        phoneNumber: '='
+                        number: '='
                     },
                     templateUrl: '/assets/partials/store-card.html',
                     replace: false,
@@ -29,7 +29,7 @@
                                 id: $scope.id,
                                 name: $scope.name,
                                 address: $scope.address,
-                                phoneNumber: $scope.phoneNumber,
+                                number: $scope.number,
                                 reviews: [],
                                 averageNumStars: 0,
                                 averageNumStarsForDisplay: 0,

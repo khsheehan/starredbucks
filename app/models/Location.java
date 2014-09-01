@@ -89,6 +89,8 @@ public class Location extends Model {
                 currentLocation.name = sqlRows.get(i).getString("name");
                 currentLocation.latitude = sqlRows.get(i).getString("latitude");
                 currentLocation.longitude = sqlRows.get(i).getString("longitude");
+                currentLocation.street_address = sqlRows.get(i).getString("street_address");
+                currentLocation.phone_number = sqlRows.get(i).getString("phone_number");
                 locations.add(currentLocation);
             }
             

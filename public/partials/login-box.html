@@ -8,13 +8,13 @@
             </div>
             <div class="modal-body">
                 <div id="login" ng-show="loginModal.currentView === 'login'">
-                    <paper-input style="color: #fff;" floatinglabel label="enter your username" name="username"></paper-input>
-                    <paper-input style="color: #fff;" floatinglabel label="and your password" name="password" type="password"></paper-input>
+                    <paper-input style="color: #fff;" required floatinglabel label="enter your username" name="username"></paper-input>
+                    <paper-input style="color: #fff;" required floatinglabel label="and your password" name="password" type="password"></paper-input>
                 </div>
                 <div id="signup" ng-show="loginModal.currentView === 'register'">
-                    <paper-input style="color: #fff;" floatinglabel label="enter a username" name="username"></paper-input>
-                    <paper-input style="color: #fff;" floatinglabel label="and a password" name="password" type="password"></paper-input>
-                    <paper-input style="color: #fff;" maxlength="5" floatinglabel type="number" label="along with your zip code" name="zipcode"></paper-input>
+                    <paper-input style="color: #fff;" required floatinglabel label="enter a username" name="username"></paper-input>
+                    <paper-input style="color: #fff;" required floatinglabel label="and a password" name="password" type="password"></paper-input>
+                    <paper-input style="color: #fff;" required min="00000" max="99999" floatinglabel type="number" label="along with your zip code" name="zipcode"></paper-input>
                 </div>
             </div>
             <div class="modal-footer">

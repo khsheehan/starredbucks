@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Review;
+import models.User;
 import play.libs.Json;
 import play.mvc.*;
 
@@ -30,6 +31,12 @@ public class ReviewAPI extends Controller {
         for (int i = 0; i < reviews.size(); i++) {
             reviewJson = Json.newObject();
             currentReview = reviews.get(i);
+            String username;
+            try {
+                username = User.getUserById(Long.valueOf(String.valueOf(currentReview.user_id))).username;
+            } catch (Exception e) {
+                username = "Deleted User";
+            }
             
             logger.log(Level.INFO, "Fetched review:" + currentReview.id + " from database for store:" + store_id);
 
@@ -37,6 +44,7 @@ public class ReviewAPI extends Controller {
             reviewJson.put("stars", currentReview.num_stars);
             reviewJson.put("text", currentReview.review_text);
             reviewJson.put("user_id", currentReview.user_id);
+            reviewJson.put("username", username);
             
             reviewsContainerJson.add(reviewJson);
         }

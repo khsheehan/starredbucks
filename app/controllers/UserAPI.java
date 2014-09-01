@@ -17,6 +17,14 @@ public class UserAPI extends Controller {
         String password = body.asJson().findPath("password").asText();
         String zipcode  = body.asJson().findPath("zipcode").asText();
 
+        if (username.equals("") ||
+            password.equals("") ||
+            zipcode.equals("") ||
+            zipcode.length() != 5 ||
+            username.length() > 12 || username.length() < 3) {
+            return badRequest();
+        }
+        
         // Hash and salt their password
         String hashedPassword = hashPassword(username, password);
 
@@ -46,6 +54,10 @@ public class UserAPI extends Controller {
         Http.RequestBody body = request().body();
         String username = body.asJson().findPath("username").asText();
         String password = body.asJson().findPath("password").asText();
+        
+        if (username.equals("") || password.equals("")) {
+            return badRequest();
+        }
 
         String hashedPassword = hashPassword(username, password);
 
