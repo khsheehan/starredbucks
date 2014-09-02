@@ -11,7 +11,6 @@ public class UserAPI extends Controller {
 
     public static Result signup() {
 
-        // TODO: Add some validation to this method
         Http.RequestBody body = request().body();
         String username = body.asJson().findPath("username").asText();
         String password = body.asJson().findPath("password").asText();
@@ -92,7 +91,6 @@ public class UserAPI extends Controller {
         Long uid = Long.parseLong(session("uid"));
         User user = User.getUserById(uid);
         
-        // TODO: Add some basic validation on the zipcode
         user.zip = zipcode;
         user.update();
         

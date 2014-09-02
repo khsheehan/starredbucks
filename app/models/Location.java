@@ -46,9 +46,6 @@ public class Location extends Model {
     public static Finder<Object, Location> find = new Finder<Object, Location>(Object.class, Location.class);
     
     public static List<Location> getLocationsByRadLatLng(String rad, String lat, String lng) {
-        
-        // TODO: Implement some basic validation for lat lng (length, value, parseInt, etc.)
-        // TODO: Implement some basic validation for maximum radius
 
         try {
             final int MAX_RETURNED = 350;
@@ -96,9 +93,7 @@ public class Location extends Model {
             
             return locations;
 
-        } catch (Exception e) {
-            // TODO: Return some relevant error code
-        }
+        } catch (Exception e) { /* no-op */ }
         
         return null; // no-op return, cannot be reached.
     }

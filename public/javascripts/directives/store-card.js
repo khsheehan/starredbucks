@@ -46,13 +46,12 @@
                                     
                                     if (text && numStars) {
                                         ReviewAPI.addStoreReview($scope.card.id, text, numStars).then(function() {
-                                            // TODO: Show confirmation that review was added, reload reviews
                                             ReviewAPI.getStoreReviews($scope.card.id).then(function(storeData) {
                                                 $scope.card.reviews = storeData.reviews;
                                             });
                                         })
                                     } else {
-                                        alert("You didn't review."); // TODO: Fix this
+                                        alert("You didn't review.");
                                     }
                                 }
                             };
